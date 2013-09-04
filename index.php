@@ -20,7 +20,25 @@ How to move images?
 How to add 
 
 Include ToC? Jump to section?
+
+ridiculously
+simple
+photo
+image
+site
+gallery
+
+no
+bull
+shit
+photo
+site
+
+NoBis
  **/
+
+require_once "PDO_Connection.php";
+require_once "LocalSettings.php"
 
 function get_time_string ($image) {
 
@@ -33,11 +51,20 @@ function get_time_string ($image) {
 
 }
 
+$sql = new PDO_Connection( $appConfig['database'] );
 
-// switch to mysql, no time to deal with even minor postgresql learning
-// on this project right now
-$group_captions = "SELECT * FROM group_captions WHERE location='$gallery'";
-$images = "SELECT * FROM images WHERE location='$gallery'";
+$group_captions = $sql->conn()->prepare( "SELECT * FROM group_captions WHERE location=:location" );
+$group_captions->execute( array('location'=>$gallery) );
+
+$images = $sql->conn()->prepare( "SELECT * FROM images WHERE location=:location" );
+$images->execute( array('location'=>$gallery) );
+
+
+/*	 
+	while($row = $stmt->fetch()) {
+		print_r($row);
+	}
+*/
 
 
 foreach($images as &$img)
