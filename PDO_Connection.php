@@ -34,7 +34,7 @@ class PDO_Connection {
 	public function connect () {
 
 		try {
-			$conn = new PDO("$driver:host=$host;dbname=$dbname", $username, $password);
+			$conn = new PDO("{$this->driver}:host={$this->host};dbname={$this->dbname}", $this->username, $this->password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, $this->getErrorMode() );
 
 			$this->conn = $conn;

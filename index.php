@@ -20,25 +20,22 @@ How to move images?
 How to add 
 
 Include ToC? Jump to section?
-
-ridiculously
-simple
-photo
-image
-site
-gallery
-
-no
-bull
-shit
-photo
-site
-
-NoBis
  **/
 
 require_once "PDO_Connection.php";
-require_once "LocalSettings.php"
+require_once "LocalSettings.php";
+
+// trim off the filename from SCRIPT_NAME, leaving just the path 
+// Note: has leading and trailing slash
+// Where SCRIPT_NAME like "/photos/index.php", returns path like: /photos/
+$script_path = substr( $_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '/')+1 );
+echo $script_path . "<br />";
+
+// return only the REQUEST_URI after the script_path
+// Where REQUEST_URI = "/photos/my/gallery/", gallery = "my/gallery/"
+$gallery = substr( $_SERVER["REQUEST_URI"], strlen($script_path) );
+$gallery = rtrim( strtolower($gallery), '/' );
+echo $gallery . "<br />";
 
 function get_time_string ($image) {
 
@@ -47,25 +44,29 @@ function get_time_string ($image) {
 		$output .= $image[$t]; // TODO: this could probably be done faster w/o loop
 
 	// TODO: should this return the intval?
+	// Cannot do regular int, since yyyymmddhhmmss is too big (trillions)
 	return $output;
 
 }
 
 $sql = new PDO_Connection( $appConfig['database'] );
+$sql->connect();
 
-$group_captions = $sql->conn()->prepare( "SELECT * FROM group_captions WHERE location=:location" );
+$group_captions = $sql->conn()->prepare( 
+	"SELECT * FROM blocktext
+	WHERE location=:location 
+	ORDER BY year, month, day, hour, minute, second ASC" 
+);
 $group_captions->execute( array('location'=>$gallery) );
+$group_captions = $group_captions->fetchAll();
 
-$images = $sql->conn()->prepare( "SELECT * FROM images WHERE location=:location" );
+$images = $sql->conn()->prepare(
+	"SELECT * FROM photos
+	WHERE location=:location
+	ORDER BY year, month, day, hour, minute, second ASC"
+);
 $images->execute( array('location'=>$gallery) );
-
-
-/*	 
-	while($row = $stmt->fetch()) {
-		print_r($row);
-	}
-*/
-
+$images = $images->fetchAll();
 
 foreach($images as &$img)
 	$img['type'] = 'image'; //to distguish captions from images
@@ -85,7 +86,7 @@ foreach($group_captions as &$gc) {
 	for($i=$img_index; $i<$img_count; $i++) {
 
 		// if this image is later chronologically than the caption
-		if ( get_time_string($images[$i]) > $gc_time_string) {
+		if ( strcmp(get_time_string($images[$i]), $gc_time_string) > 0 ) {
 
 			// if $images[$i] has a later date/time than $gc, insert $gc before
 			// $images[$i] so the caption will appear above it
@@ -112,11 +113,11 @@ foreach($group_captions as &$gc) {
 $images = json_encode($images);
 
 ?>
-
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript">
-	$(document).ready(function(){
+	//$(document).ready(function(){
 
 		var images = JSON.parse("<?php echo $images; ?>");
-
-	});
+		console.log("test");
+	//});
 </script>

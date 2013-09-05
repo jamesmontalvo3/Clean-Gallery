@@ -1,50 +1,57 @@
 -- This was written intending to use postgresql. I'm going to switch mindset to MySQL
 -- since that's what I know. Will be using PDO, so should be database agnostic
 
-CREATE TABLE photos (
-	id serial PRIMARY KEY,
-	
+CREATE TABLE IF NOT EXISTS photos (
+	id SERIAL,
 
-	year smallint,
-	month smallint,
-	day smallint,
-	hour smallint,
-	minute smallint,
-	second smallint,
+	year VARCHAR(4) NOT NULL,
+	month VARCHAR(2) NOT NULL,
+	day VARCHAR(2) NOT NULL,
+	hour VARCHAR(2) NOT NULL,
+	minute VARCHAR(2) NOT NULL,
+	second VARCHAR(2) NOT NULL,
 
 	-- location varchar(250), -- like "mcaleer/vacation/day_1"
-	location references albums(location),
+	location VARCHAR(250),
 
-	lot real,
-	long real,
+	-- lot real,
+	-- long real,
 
-	caption text,
+	caption TEXT,
 
-	ori_w smallint,
-	ori_h smallint,
-	w_h_ratio real
+	ori_w SMALLINT UNSIGNED,
+	ori_h SMALLINT UNSIGNED,
+	w_h_ratio FLOAT,
 
-);
+	PRIMARY KEY (id)
 
-CREATE TABLE blocktext (
-
-	id serial PRIMARY KEY,
-
-	year smallint,
-	month smallint,
-	day smallint,
-	hour smallint,
-	minute smallint,
-	second smallint,
-
-	location references albums(location),
-
-	body text
-);
+) ENGINE=InnoDB;
 
 
-CREATE TABLE albums (
-	location varchar(250) PRIMARY KEY,
+
+CREATE TABLE IF NOT EXISTS blocktext (
+
+	id SERIAL,
+
+	year VARCHAR(4) NOT NULL,
+	month VARCHAR(2) NOT NULL,
+	day VARCHAR(2) NOT NULL,
+	hour VARCHAR(2) NOT NULL,
+	minute VARCHAR(2) NOT NULL,
+	second VARCHAR(2) NOT NULL,
+
+	location VARCHAR(250),
+
+	body TEXT,
+
+	PRIMARY KEY (id)
+
+) ENGINE=InnoDB;
+
+
+
+CREATE TABLE IF NOT EXISTS albums (
+	location VARCHAR(250),
 
 	-- special name for albums: defaults to folder name, but can be modified to 
 	-- accept other characters
@@ -52,9 +59,11 @@ CREATE TABLE albums (
 	-- could be change do something like "Day 1" or "Vacation Day 1"
 	name varchar(250),
 
-	description text
+	description text,
 
-);
+	PRIMARY KEY (location)
+
+) ENGINE=InnoDB;
 
 
 
