@@ -1,6 +1,9 @@
 -- This was written intending to use postgresql. I'm going to switch mindset to MySQL
 -- since that's what I know. Will be using PDO, so should be database agnostic
 
+CREATE DATABASE cleangallery CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE cleangallery;
+
 CREATE TABLE IF NOT EXISTS photos (
 	id SERIAL,
 
@@ -12,12 +15,9 @@ CREATE TABLE IF NOT EXISTS photos (
 	second VARCHAR(2) NOT NULL,
 
 	-- location varchar(250), -- like "mcaleer/vacation/day_1"
-	location VARCHAR(250),
+	album VARCHAR(250),
 
-	-- lot real,
-	-- long real,
-
-	caption TEXT,
+	words TEXT,
 
 	ori_w SMALLINT UNSIGNED,
 	ori_h SMALLINT UNSIGNED,
@@ -40,9 +40,9 @@ CREATE TABLE IF NOT EXISTS blocktext (
 	minute VARCHAR(2) NOT NULL,
 	second VARCHAR(2) NOT NULL,
 
-	location VARCHAR(250),
+	album VARCHAR(250),
 
-	body TEXT,
+	words TEXT,
 
 	PRIMARY KEY (id)
 
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS blocktext (
 
 
 CREATE TABLE IF NOT EXISTS albums (
-	location VARCHAR(250),
+	path VARCHAR(250),
 
 	-- special name for albums: defaults to folder name, but can be modified to 
 	-- accept other characters
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS albums (
 
 	description text,
 
-	PRIMARY KEY (location)
+	PRIMARY KEY (path)
 
 ) ENGINE=InnoDB;
 
