@@ -27,9 +27,10 @@ Include ToC? Jump to section?
 require_once "PDO_Connection.php";
 require_once "LocalSettings.php";
 
-require_once "model/BlockText.php";
+require_once "model/Gallery_Object.php";
 require_once "model/Photo.php";
 require_once "model/Album.php";
+require_once "model/User.php";
 
 
 // trim off the filename from SCRIPT_NAME, leaving just the path 
@@ -50,11 +51,29 @@ $sql = new PDO_Connection( $appConfig['database'] );
 $sql->connect();
 
 
+/*
+
+Will now unify into one SQL query.
+
+How do I also pull in user info? or do I do a separate query for that so I can 
+handle users dynamically in the page? I think this is the way to do it to start
+So you can just hover over a user to get their info...
+
+
+SELECT 
+	gallery_objects.go_id, gallery_objects.date, gallery_objects.title, gallery_objects.words, gallery_objects.user_id,
+	photos.p_id, photos.original_filename, photos.file_sha1, photos.upload_date, photos.ori_w, photos.ori_h
+FROM gallery_objects LEFT OUTER JOIN photos ON gallery_objects.go_id = photos.gal_obj_id;
+
+
+*/
+
+
 
 $blocktext = $sql->conn()->prepare( 
-	"SELECT * FROM " . BlockText::$db_table .
+	"SELECT * FROM " . Gallery_Object::$db_table .
 	" WHERE album=:album 
-	ORDER BY year, month, day, hour, minute, second ASC"
+	ORDER BY `date` ASC"
 );
 $blocktext->execute( array('album'=>$album) );
 $blocktext = $blocktext->fetchAll(PDO::FETCH_CLASS, "BlockText");

@@ -8,7 +8,7 @@ USE cleangallery;
 
 CREATE TABLE IF NOT EXISTS gallery_objects (
 
-	id SERIAL,
+	go_id SERIAL,
 
 	album VARCHAR(250),
 
@@ -23,15 +23,17 @@ CREATE TABLE IF NOT EXISTS gallery_objects (
 	title VARCHAR(255),
 	words TEXT,
 
-	userid BIGINT UNSIGNED NOT NULL,
+	user_id BIGINT UNSIGNED NOT NULL,
 
-	PRIMARY KEY (id)
+	PRIMARY KEY (go_id)
 
 ) ENGINE=InnoDB;
 
 
 
 CREATE TABLE IF NOT EXISTS photos (
+
+	p_id SERIAL,
 
 	gal_obj_id BIGINT UNSIGNED NOT NULL, -- each photo points to a single gallery object
 
@@ -51,7 +53,7 @@ CREATE TABLE IF NOT EXISTS photos (
 	-- FTP folder they are in.
 	-- userid BIGINT UNSIGNED NOT NULL,
 
-	PRIMARY KEY (id)
+	PRIMARY KEY (p_id)
 
 ) ENGINE=InnoDB;
 
@@ -77,10 +79,12 @@ CREATE TABLE IF NOT EXISTS albums (
 
 CREATE TABLE IF NOT EXISTS users (
 
-	id SERIAL,
+	u_id SERIAL,
 
 	username varchar(32) NOT NULL,  -- max username length = 32 characters
 	password varchar(40) NOT NULL,  -- sha1
+
+	PRIMARY KEY (u_id)
 
 ) ENGINE=InnoDB;
 

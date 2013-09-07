@@ -1,25 +1,19 @@
 <?php
-require_once "BlockText.php";
 
-class Photo extends BlockText {
+class Photo {
 
 	public static $db_table = "photos";
 
 	public $id;
-	
-	// public $year;
-	// public $month;
-	// public $day;
-	// public $hour;
-	// public $minute;
-	// public $second;
 
-	// public $album;
-	// public $words;
-	
+	public $gal_obj_id;
+
+	public $original_filename;
+	public $file_sha1;
+	public $upload_date;
+		
 	public $ori_w;
 	public $ori_h;
-	public $w_h_ratio;
 
 	public $type = "photo";
 

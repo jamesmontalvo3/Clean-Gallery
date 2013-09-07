@@ -5,22 +5,22 @@ class Gallery_Object {
 	public static $db_table = "gallery_objects";
 
 	public $id;
-	
-	public $year;
-	public $month;
-	public $day;
-	public $hour;
-	public $minute;
-	public $second;
-
 	public $album;
+	public $date;
+
+
+	public $title;
 	public $words;
 
-	// props set for data/time comparison
-	public $date_int;
-	public $time_int;
+	public $user_id;
 
-	public $type = "blocktext";
+	// props set for data/time comparison
+	public $date_int; // necessary?
+	public $time_int; // necessary?
+
+	public $type = "gallery_object"; // still necessary with db change?
+
+
 
 	// NOTE: when using this class with PDO, the properties are set BEFORE the 
 	// __construct function is run.
