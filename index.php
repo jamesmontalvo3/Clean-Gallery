@@ -111,7 +111,7 @@ print_r ($photos);
 echo "<br /><br />";
 
 
-$photos = str_replace( "\"", "\\\"", json_encode($photos) );
+$photos = str_replace( '"', '\"', json_encode($photos) );
 
 echo $photos;
 

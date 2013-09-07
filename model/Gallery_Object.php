@@ -1,8 +1,8 @@
 <?php
 
-class BlockText {
+class Gallery_Object {
 
-	public static $db_table = "blocktext";
+	public static $db_table = "gallery_objects";
 
 	public $id;
 	
