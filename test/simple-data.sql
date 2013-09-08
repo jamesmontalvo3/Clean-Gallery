@@ -1,6 +1,6 @@
 -- this data is for testing only
 
-INSERT INTO gallery_objects (go_id,album,title, words, `date`, user_id) VALUES 
+INSERT INTO gallery_elements (ge_id,album,title, words, `date`, user_id) VALUES 
 	(1, 'mcaleer/demo','First demo pictures', 'Some words of introduction', '2013-08-02 12:00:00', 3),
 	(2, 'mcaleer/demo','',                    'no caption', '2013-08-02 12:02:00', 3),
 	(3, 'mcaleer/demo','',                    'no caption', '2013-08-02 12:04:00', 3),
@@ -15,7 +15,7 @@ INSERT INTO gallery_objects (go_id,album,title, words, `date`, user_id) VALUES
 	(12,'mcaleer/demo','',                    'no caption', '2013-08-02 12:22:00', 3),
 	(13,'mcaleer/demo','',                    'no caption', '2013-08-02 12:24:00', 3);
 
-INSERT INTO photos (gal_obj_id, original_filename, file_sha1, upload_date, ori_w, ori_h) VALUES 
+INSERT INTO photos (gal_elem_id, original_filename, file_sha1, upload_date, ori_w, ori_h) VALUES 
 	(2, 'IMG_1.jpg', SHA1('IMG_1.jpg'), '2013-08-04 15:00:00', 1200, 800),
 	(3, 'IMG_2.jpg', SHA1('IMG_2.jpg'), '2013-08-04 15:00:00', 1200, 800),
 	(4, 'IMG_3.jpg', SHA1('IMG_3.jpg'), '2013-08-04 15:00:00', 1200, 800),

@@ -6,9 +6,9 @@ USE cleangallery;
 
 
 
-CREATE TABLE IF NOT EXISTS gallery_objects (
+CREATE TABLE IF NOT EXISTS gallery_elements (
 
-	go_id SERIAL,
+	ge_id SERIAL,
 
 	album VARCHAR(250),
 
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS gallery_objects (
 
 	user_id BIGINT UNSIGNED NOT NULL,
 
-	PRIMARY KEY (go_id)
+	PRIMARY KEY (ge_id)
 
 ) ENGINE=InnoDB;
 
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS photos (
 
 	p_id SERIAL,
 
-	gal_obj_id BIGINT UNSIGNED NOT NULL, -- each photo points to a single gallery object
+	gal_elem_id BIGINT UNSIGNED NOT NULL, -- each photo points to a single gallery object
 
 	original_filename VARCHAR(255),
 	file_sha1 varchar(40) NOT NULL,

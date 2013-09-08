@@ -1,36 +1,24 @@
 <?php
 
-class Gallery_Object {
+class Gallery_Element {
 
-	public static $db_table = "gallery_objects";
-
-	public $id;
+	public $ge_id;
 	public $album;
 	public $date;
-
 
 	public $title;
 	public $words;
 
 	public $user_id;
 
-	// props set for data/time comparison
-	public $date_int; // necessary?
-	public $time_int; // necessary?
-
-	public $type = "gallery_object"; // still necessary with db change?
-
-
 
 	// NOTE: when using this class with PDO, the properties are set BEFORE the 
 	// __construct function is run.
-	// public function __construct () {
+	public function __construct () {
 
-	// 	if ( isset($this->id) ) {
 
-	// 	}
 
-	// }
+	}
 
 	public function get_time_string ($image) {
 

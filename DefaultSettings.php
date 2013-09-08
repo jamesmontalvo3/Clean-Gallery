@@ -7,3 +7,5 @@ $appConfig['database'] = array(
 	'username' => 'INSERT-USERNAME-HERE',
 	'password' => 'INSERT-PASSWORD-HERE'
 );
+
+$sitename = "My Photo Gallery";

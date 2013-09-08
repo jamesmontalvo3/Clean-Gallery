@@ -1,0 +1,20 @@
+body {
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 13px; 
+}
+
+a{
+	color: #333;
+}
+a:visited {
+	color: #666;
+}
+a:hover {
+	color: #999;
+}
+a:active {
+	color: #ccc;
+}
+a.novisit:visited {
+	color: #333;
+}

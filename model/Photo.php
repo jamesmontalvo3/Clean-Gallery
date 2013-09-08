@@ -2,9 +2,7 @@
 
 class Photo {
 
-	public static $db_table = "photos";
-
-	public $id;
+	public $p_id;
 
 	public $gal_obj_id;
 
@@ -14,9 +12,6 @@ class Photo {
 		
 	public $ori_w;
 	public $ori_h;
-
-	public $type = "photo";
-
 
 	// public function __construct () {
 
