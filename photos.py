@@ -33,80 +33,19 @@ mtext = {
 	'12':'December'
 }
 
-def js (src):
-	return "<script type='text/javascript' src='%s'></script>" % src
-
-def css (href):
-	return "<link rel='stylesheet' type='text/css' href='%s' />" % href
-
-fbox = "http://montalvo.us/lib/fancyBox/source/"
-
-print "Content-Type: text/html\n\n"
-print "<!DOCTYPE html>"
-print "<html><head>"
-print "<title>Honeymoon Photos</title>"
-print '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'
-
-print js ("https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js")
-
-print js (fbox + "jquery.fancybox.js?v=2.1.5")
-print css (fbox + "jquery.fancybox.css?v=2.1.5")
-
-print css (fbox + "helpers/jquery.fancybox-buttons.css?v=1.0.5")
-print js (fbox + "helpers/jquery.fancybox-buttons.js?v=1.0.5")
-
-print css (fbox + "helpers/jquery.fancybox-thumbs.css?v=1.0.7")
-print js (fbox + "helpers/jquery.fancybox-thumbs.js?v=1.0.7")
-
-print """<style>
-body {
-  font-family: sans-serif; 
-}
-img {
-  border:none;
-  margin:5px;
-}
-div {
-  margin: 30px 0 5px 0;
-}
-.fancybox-custom .fancybox-skin {
-	box-shadow: 0 0 50px #222;
-}
-</style><script type='text/javascript'>
-$(document).ready(function(){
-	$('.fancybox').fancybox({
-		openEffect : 'elastic',
-		closeEffect : 'elastic',
-		prevEffect : 'none',
-		nextEffect : 'none',
-		closeBtn : false,
-		helpers : {
-			title : { type : 'inside' }
-		}
-	});
-});
-</script></head><body>"""
-
-intro = join( fileroot, "intro.txt")
-if os.path.isfile( intro ):
-	with open( intro, 'r') as f:
-		text = f.read()
-		print "<div>%s</div>" % (text)
-
 photogroup = 1
 
 for photo in photos:
 
- 	if photo == "intro.txt":
-		continue
+ 	#if photo is directory
+		#do what?
+	#if photo is compressed file
+		#do what?
 	
 	filepath = join(fileroot, photo)
 
 	ext = os.path.splitext(photo)[1][1:].lower()
 	
-	if ext not in ("jpg", "txt"):
-		continue
-
 	name = os.path.splitext(photo)[0]
 	
 	# date format: yyyymmdd_hhmmss
@@ -116,35 +55,7 @@ for photo in photos:
 	#h = name[9:11]
 	#i = name[11:13]
 	#s = name[13:15]
-	
-
- 	if d != day:
-		date = mtext[m] + " " + d
-		print "<h2>%s</h2>" % (date)
-		day = d
-		photogroup += 1
 		
-	if ext == "txt":
-		with open(filepath, 'r') as f:
-			text = f.read()
-			title = name.split(' ', 1)[1]
-			print "<div><h3>%s</h3>%s</div>" % (title,text)
-			photogroup += 1
-			continue
-	elif ext != "jpg":
-		continue
-
-		
-		
-	#name = name[15:].strip()
-	#if name == "":
-	#	name = "untitled"
-		
-	#minsec = "<small>(" + i +":" + s + ")</small>"
-	
-	#if m != month:
-	#	print "<h1>", m, " ", y, "</h1>"
-	
 	thumbfilepath = join(fileroot,'thumbs',photo)
 	
 	loresfilepath = join(fileroot,'lores',photo)
@@ -164,5 +75,3 @@ for photo in photos:
 	lores = httproot + "/lores/" + photo
 	print "<a href='%s' class='fancybox' data-fancybox-group='%s' title='<a href=\"%s\">Full-Size Image</>'><img src='%s' /></a>" % (lores, photogroup, img, thumb)
 	
-
-print "</body></html>"

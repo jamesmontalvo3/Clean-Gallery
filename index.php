@@ -27,14 +27,9 @@ Include ToC? Jump to section?
 require_once "PDO_Connection.php";
 require_once "LocalSettings.php";
 
-require_once "model/Gallery_Element.php";
-require_once "model/Photo.php";
-require_once "model/Album.php";
-require_once "model/User.php";
 
 $sql = new PDO_Connection( $appConfig['database'] );
 $sql->connect();
-
 
 /**
  *	A lot of this stuff needs to be included into an "environment setup" file
@@ -53,35 +48,71 @@ $script_path = substr( $_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME
 // protocol relative base path
 $base_path = '//'.$_SERVER['HTTP_HOST'];
 
-$lib_path = $base_path.$script_path.'lib/';
-
-
 // return only the REQUEST_URI after the script_path
-// Where REQUEST_URI = "/photos/my/album/", album = "my/album/"
-$album_path = substr( $_SERVER["REQUEST_URI"], strlen($script_path) );
-$album_path = rtrim( strtolower($album_path), '/' ); // remove the trailing slash
+// Where REQUEST_URI = "/photos/my/album/", $control_path = "MY/Album/"
+$control_path = substr( $_SERVER["REQUEST_URI"], strlen($script_path) );
+// lower case and remove trailing slash, $control_path = "my/album"
+$control_path = rtrim( strtolower($control_path), '/' );
+
+$IP = __DIR__;
+
+$full_script_path = $base_path.$script_path;
+$lib_path = $full_script_path.'lib/';
 
 
+$control = explode('/', $control_path);
 
-$album = new Album($album_path);
+if ( ! isset($control[0]) ) {
 
-$elements = $album->populateElements();
+	// when someone navigates to app root, e.g. http://example.com/cg
+	echo "The application main page will be here";
+	exit();
 
-$elements = str_replace( '"', '\"', json_encode($elements) );
-// echo $elements;
-$head_content = 
-'<script type="text/javascript">
-	$(document).ready(function(){
+}
+else if ($control[0] == 'media') {
 
-		var album = JSON.parse("' . $elements . '");
-		console.log(album);
+	echo "media will be here";
+	exit();
 
-		$("#container").cleangallery(album);
-	});
-</script>';
+	// access images and videos through here...
+	// this will be a URL like:
+	// http://example.com/cg/media/1f07c5d5175c0c79fd75f9255c50013a48891fe0/h160.jpg
+	$image_hash = $control[1];
+	$image_size = $control[2]; // this should probably be like "h160.jpg"
 
-$body_content = '<div style="font-size:12px;">' . $album->getBreadcrumbs() . '</div>';
-$body_content .= '<h1>' . $album->name . '</h1>';
-$body_content .= '<div id="container"></div>';
+}
+else if ($control[0] == 'upload') {
 
-require_once "view/main.php";
+	// upload images through web interface here
+	// echo "uploading will happen here";
+	// exit();
+
+	require_once "$IP/PhotoUpload.php";
+
+	PhotoUpload::walk("/Library/WebServer/Documents/test");
+
+}
+else if ($control[0] == 'api') {
+
+	// API calls...
+	echo "API calls will happen here";
+	exit();
+
+}
+else {
+	
+	require_once "model/Album.php";
+	require_once "model/Gallery_Element.php";
+	require_once "model/Photo.php";
+	require_once "model/User.php";
+	require_once "view/HTML_Builder.php";
+
+	$album = new Album($control_path);
+	$album->populateElements();
+
+	$html = new HTML_Builder();
+	$html->headAppend( $album->getInitCleanGalleryJS() );
+	$html->bodyAppendFile( "view/album_view.php", $album );
+
+	echo $html->getHTML();
+}

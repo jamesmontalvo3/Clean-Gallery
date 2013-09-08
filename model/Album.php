@@ -8,7 +8,7 @@ class Album {
 	public $path_parts;
 
 	public function __construct ($album_path) {
-		global $sql;
+		global $sql, $IP;
 
 		$sql_stmt = $sql->conn()->prepare(
 			"SELECT * FROM albums WHERE path=:path;"
@@ -21,10 +21,9 @@ class Album {
 			$this->description = $album->description;
 		}
 		else {
-			echo "<pre>";
-			print_r($album);
-			echo "</pre>";
-			die("Specified album does not exist");
+		    header('HTTP/1.0 404 Not Found');
+			readfile("$IP/view/404.html");
+			exit();
 		}
 		$this->path_parts = explode('/',$this->path);
 
@@ -101,6 +100,27 @@ class Album {
 		$this->elements = $elements;
 		return $elements;
 
+	}
+
+	public function getInitCleanGalleryJS () {
+
+		$elem_json = str_replace( '"', '\"', json_encode($this->elements) );
+		// echo $elem_json;
+
+		$script = 
+			'<script type="text/javascript">
+				$(document).ready(function(){
+
+					var album = JSON.parse("' . $elem_json . '");
+					if (typeof console == "object") {
+						console.log(album);
+					}
+					$("#container").cleangallery(album);
+
+				});
+			</script>';
+
+		return $script;
 	}
 
 }

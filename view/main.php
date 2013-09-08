@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-	<meta name="description" content="Simple Image Gallery">
-	<meta name="keywords" content="Images,Photos">
-	<meta name="author" content="James Montalvo - https://github.com/jamesmontalvo3">
-	<meta charset="UTF-8">
 	<head>
+		<meta name="description" content="Simple Image Gallery">
+		<meta name="keywords" content="Images,Photos">
+		<meta name="author" content="James Montalvo - https://github.com/jamesmontalvo3">
+		<meta charset="UTF-8">
 		<?php 
-			include "html-head.php";
+			global $IP;
+			include "$IP/view/html-head.php";
 			if ( isset($head_content) )
 				echo $head_content;
 		?>
@@ -18,7 +19,7 @@
 			else
 				die("No content supplied for body of page.");
 
-			include "footer.php"; 
+			include "$IP/view/footer.php"; 
 		?>
 	</body>
 </html>

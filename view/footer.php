@@ -1,3 +1,4 @@
+<?php global $sitename, $application_url, $application_name; ?>
 <div style="padding-top:40px;text-align:center;">
 <strong><?php echo $sitename; ?></strong> 
 powered by 
