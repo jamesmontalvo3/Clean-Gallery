@@ -41,8 +41,20 @@ CREATE TABLE IF NOT EXISTS photos (
 	file_sha1 varchar(40) NOT NULL,
 	upload_date DATETIME NOT NULL, -- time uploaded
 
+
 	ori_w SMALLINT UNSIGNED,
 	ori_h SMALLINT UNSIGNED,
+
+	-- For now, just small thumb best fit on small-ish screen, and original
+	h160_w SMALLINT UNSIGNED,
+	fit1280x800_w SMALLINT UNSIGNED,
+
+	-- other possible sizes
+	-- h240
+	-- h320
+	-- best fit in 1280 x 800 ?
+	-- best fit in 1600 x 1200 ? 
+	-- best fit in 1024 x 758
 
 	-- photos may be uploaded without a gallery, and need an uploader to do it
 	-- in most cases photos and gallery_objects will have the same user
@@ -88,3 +100,18 @@ CREATE TABLE IF NOT EXISTS users (
 
 ) ENGINE=InnoDB;
 
+
+
+CREATE TABLE IF NOT EXISTS pending_media (
+
+	id SERIAL,
+
+	original_filename VARCHAR(255),
+	file_sha1 varchar(40) NOT NULL,
+	upload_date DATETIME NOT NULL, -- time uploaded
+
+	user_id BIGINT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (id)
+
+) ENGINE=InnoDB;

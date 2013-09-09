@@ -59,6 +59,10 @@ $IP = __DIR__;
 $full_script_path = $base_path.$script_path;
 $lib_path = $full_script_path.'lib/';
 
+if ( ! isset($media_directory) ) {
+	$media_directory = $IP.'/media';
+}
+
 
 $control = explode('/', $control_path);
 
@@ -89,7 +93,7 @@ else if ($control[0] == 'upload') {
 
 	require_once "$IP/PhotoUpload.php";
 
-	PhotoUpload::walk("/Library/WebServer/Documents/test");
+	echo PhotoUpload::walk("/Library/WebServer/Documents/test");
 
 }
 else if ($control[0] == 'api') {

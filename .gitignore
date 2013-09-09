@@ -1,2 +1,4 @@
 LocalSettings.php
 .DS_Store
+/media
+/upload

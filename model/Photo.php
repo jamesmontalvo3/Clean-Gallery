@@ -13,6 +13,9 @@ class Photo {
 	public $ori_w;
 	public $ori_h;
 
+	public $h160_w;
+	public $fit1280x800_w;
+
 	// public function __construct () {
 
 	// }
